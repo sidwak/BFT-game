@@ -1,0 +1,12 @@
+Camera size :35
+joystick alpha :200
+car2buy amount and text 120
+machine3 amount and text 120
+ground mat hex FF997C
+wall mat hex E09B93
+grass mat hex 73FF49
+
+stopped zone animations
+upgrade ui disables in buymachine
+boxcount set to 20 on first three cars
+line 155 on buymachine
