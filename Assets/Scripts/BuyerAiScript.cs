@@ -92,6 +92,7 @@ public class BuyerAiScript : MonoBehaviour
             navMeshAgent.destination = startPos;
             if (Vector3.Distance(transform.position, startPos) < 1f)   //can use stoppingdistance
             {
+                racks[targetRackid].isBuyerAiTarget = false; //added new
                 transform.position = startPos;
                 stateGoingBack = false;
                 stateResetBox = true;
@@ -107,6 +108,7 @@ public class BuyerAiScript : MonoBehaviour
                     playerBoxScript.boxNumber--;
                 }
             }
+            targetRackid = 0;
             stateResetBox = false;
             stateIdle = true;
         }
@@ -118,6 +120,7 @@ public class BuyerAiScript : MonoBehaviour
             {
                 if (!stateGoingBack)
                 {
+                    racks[targetRackid].isBuyerAiTarget = false;      //added new
                     stateCollectingBoxes = false;
                     stateGoingBack = true;
                 }

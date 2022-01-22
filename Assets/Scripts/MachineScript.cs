@@ -14,10 +14,13 @@ public class MachineScript : MonoBehaviour
     public bool isStop = false;
     public bool isBuy = false;
     public bool isDoneUpgrade = false;
+    public bool isConverted = false;
 
     public GameObject machineBox;
     public GameObject player;
     public GameObject canvas;
+
+    public ConvertedTrayScript convertedTrayScript;
 
     public Material mat;
 
@@ -37,19 +40,48 @@ public class MachineScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time >= timeTospawn && !isStop)
+        if (!isConverted)
         {
-            GameObject num = Instantiate(machineBox, transform.position, machineBox.transform.rotation);
-            num.AddComponent<MachineBoxScript>();
-            num.GetComponent<MachineBoxScript>().endPosition = endPosition;
-            num.GetComponent<MachineBoxScript>().StartLerp();
-
-            //canvas.GetComponent<CanvasScript>().totalBoxes++;
-            if (isDoneUpgrade)
+            if (Time.time >= timeTospawn && !isStop)
             {
-                spawnSpeed = upgradeSpawnSpeed;
+                GameObject num = Instantiate(machineBox, transform.position, machineBox.transform.rotation);
+                num.AddComponent<MachineBoxScript>();
+                num.GetComponent<MachineBoxScript>().endPosition = endPosition;
+                num.GetComponent<MachineBoxScript>().StartLerp();
+
+                //canvas.GetComponent<CanvasScript>().totalBoxes++;
+                if (isDoneUpgrade)
+                {
+                    spawnSpeed = upgradeSpawnSpeed;
+                }
+                timeTospawn = Time.time + spawnSpeed;
             }
-            timeTospawn = Time.time + spawnSpeed;
+        }
+        else
+        {
+            if (convertedTrayScript.boxCountnum >= 5)
+            {
+                if (Time.time >= timeTospawn && !isStop)
+                {
+                    GameObject num = Instantiate(machineBox, transform.position, machineBox.transform.rotation);
+                    num.AddComponent<MachineBoxScript>();
+                    num.GetComponent<MachineBoxScript>().endPosition = endPosition;
+                    num.GetComponent<MachineBoxScript>().StartLerp();
+
+                    //canvas.GetComponent<CanvasScript>().totalBoxes++;
+                    if (isDoneUpgrade)
+                    {
+                        spawnSpeed = upgradeSpawnSpeed;
+                    }
+                    timeTospawn = Time.time + spawnSpeed;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        convertedTrayScript.trayBoxesList[convertedTrayScript.boxCountnum - 1].SetActive(false);
+                        convertedTrayScript.boxCountnum--;
+
+                    }
+                }
+            }
         }
 
         if (mat.mainTextureOffset.y == 1f)

@@ -80,11 +80,14 @@ public class RackBoxHolderScript : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (isMoverInArea)
+        if (isMoverInArea && other.gameObject.name == "BuyerAI")
         {
             isMoverInArea = false;
         }
-        isPlayerInArea = false;
+        else
+        {
+            isPlayerInArea = false;
+        }
     }
 
     IEnumerator PlayerStay()
@@ -121,7 +124,7 @@ public class RackBoxHolderScript : MonoBehaviour
             StartCoroutine(MoverStay());
             yield break;
         }
-        if (moverBoxScript.boxNumber == 5)
+        if (moverBoxScript.boxNumber == 5 || boxCountnum == 0)
         {
             yield break;
         }
@@ -152,6 +155,7 @@ public class RackBoxHolderScript : MonoBehaviour
         num.GetComponent<BoxScript>().CoinPrefab = CoinPrefab;
         moverBoxScript.boxNumber++;
         rackBoxesList[boxCountnum-1].SetActive(false);
+        canvasScript.totalCoins++;
         if (boxCountnum > 0)
         {
             boxCountnum--;

@@ -8,6 +8,8 @@ public class CanvasScript : MonoBehaviour
     public float totalBoxes;
     public float totalCoins;
 
+    public bool isPlayerCapacityUpgrade = false;
+
     private Vector2 numPos;
     private Vector2 canvasScale;
     private Vector2 holdPos;
@@ -22,6 +24,8 @@ public class CanvasScript : MonoBehaviour
     public Joystick JYstick;
 
     public MachineScript targetMachineScript;
+
+    string maxBoxCountnum = "30";
 
 
     // Start is called before the first frame update
@@ -39,7 +43,11 @@ public class CanvasScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        totalBoxesText.text = totalBoxes.ToString() + "/" + "30";
+        if (isPlayerCapacityUpgrade)
+        {
+            maxBoxCountnum = "60";
+        }
+        totalBoxesText.text = totalBoxes.ToString() + "/" + maxBoxCountnum;
 
         if (totalCoins >= 10000)
         {

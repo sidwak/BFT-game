@@ -10,3 +10,4 @@ stopped zone animations
 upgrade ui disables in buymachine
 boxcount set to 20 on first three cars
 line 155 on buymachine
+json coins value

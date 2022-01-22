@@ -10,14 +10,15 @@ public class MoverAIScript : MonoBehaviour
 
     public Vector3[] machinePos;
     public Vector3[] carPos;
-    public Vector3 targetMachine;
-    public Vector3 targetCar;
+    public Vector3 targetMachine = Vector3.zero;
+    public Vector3 targetCar = Vector3.zero;
 
     public bool stateIdle = true;
     public bool stateMovingToMachine = false;
     public bool stateCollectingBoxes = false;
     public bool stateMovingToCar = false;
     public bool stateKeepingBoxes = false;
+    public bool isUpgradeSpeed = false;
 
     private int lastMaxCount = 0;
     private int leastCarBoxCount = 10000;
@@ -51,8 +52,14 @@ public class MoverAIScript : MonoBehaviour
             animator.SetFloat("Blend", 0.5f, 0.2f, Time.deltaTime);
         }*/
         animator.SetFloat("Blend", navMeshAgent.velocity.magnitude / navMeshAgent.speed, 0.2f, Time.deltaTime);
+
+        if (isUpgradeSpeed)
+        {
+            navMeshAgent.speed = 12f;
+        }
         if (stateIdle)
         {
+            targetMachine = Vector3.zero;
             for (int i = 0; i < machines.Length; i++)
             {
                 if (machines[i].activeBoxesList.Count >= lastMaxCount && machines[i].gameObject.activeInHierarchy)
@@ -65,10 +72,13 @@ public class MoverAIScript : MonoBehaviour
                     }                 
                 }
             }
-            machines[targetMachineid].isAiTarget = true;
-            lastMaxCount = 0;
-            stateMovingToMachine = true;
-            stateIdle = false;
+            if (targetMachine != Vector3.zero)
+            {
+                machines[targetMachineid].isAiTarget = true;
+                lastMaxCount = 0;
+                stateMovingToMachine = true;
+                stateIdle = false;
+            }
         }
         if (stateMovingToMachine)
         {
@@ -85,6 +95,7 @@ public class MoverAIScript : MonoBehaviour
         {
             if (playerBoxScript.boxNumber >= 10 || machines[targetMachineid].isMoverInArea == false)
             {
+                targetCar = Vector3.zero;
                 machines[targetMachineid].isAiTarget = false;
                 for (int i = 0; i < cars.Length; i++)
                 {
@@ -98,10 +109,13 @@ public class MoverAIScript : MonoBehaviour
                         }
                     }
                 }
-                cars[targetCarid].isAiTarget = true;
-                leastCarBoxCount = 1000;
-                stateCollectingBoxes = false;
-                stateMovingToCar = true;
+                if (targetCar != Vector3.zero)
+                {
+                    cars[targetCarid].isAiTarget = true;
+                    leastCarBoxCount = 1000;
+                    stateCollectingBoxes = false;
+                    stateMovingToCar = true;
+                }
             }
         }
         if (stateMovingToCar)
@@ -116,7 +130,7 @@ public class MoverAIScript : MonoBehaviour
         }
         if (stateKeepingBoxes)
         {
-            if (playerBoxScript.boxNumber == 0)
+            if (playerBoxScript.boxNumber == 0 || cars[targetCarid].isMoverInArea == false)
             {
                 cars[targetCarid].isAiTarget = false;
                 stateKeepingBoxes = false;

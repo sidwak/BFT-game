@@ -7,6 +7,7 @@ using GameAnalyticsSDK;
 public class JSONSave : MonoBehaviour
 {
     public PlayerData playerdata;
+    public string dataFileName;
 
     public float lastCoins = 0f;
 
@@ -43,13 +44,14 @@ public class JSONSave : MonoBehaviour
     private void CreatePlayerData()
     {
         playerdata = new PlayerData(false, false, false, false, false, false, false, false, false, false, false, false, false,
-            false, false, false, false, false, false, false, false, false, false, false, 1);
+            false, false, false, false, false, false, false, false, false, false, false, false, false,
+            false, false, false, false, false, false, false, false, false, 1, 0);
     }
 
     private void SetPaths()
     {
-        path = Application.dataPath + Path.AltDirectorySeparatorChar + "SavaData.json";
-        persistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "SaveData.json";
+        path = Application.dataPath + Path.AltDirectorySeparatorChar + dataFileName;
+        persistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + dataFileName;
         Debug.Log(persistentPath);
     }
 

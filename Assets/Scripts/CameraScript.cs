@@ -7,6 +7,8 @@ public class CameraScript : MonoBehaviour
     public Vector3 zone2;
     public Vector3 zone3;
     public Vector3 zone4;
+    public Vector3 zone5;
+    public Vector3 level2;
     public Vector3 startPos;
 
     public CharacterScript player;
@@ -39,6 +41,18 @@ public class CameraScript : MonoBehaviour
     {
         player.isLerping = true;
         StartCoroutine(LerpPosition(zone4, 2f));
+    }
+
+    public void Zone4Lerp()
+    {
+        player.isLerping = true;
+        StartCoroutine(LerpPosition(zone5, 2f));
+    }
+
+    public void Zone5Lerp()
+    {
+        player.isLerping = true;
+        StartCoroutine(LerpPosition(level2, 2f));
     }
 
     IEnumerator LerpPosition(Vector3 targetPosition, float duration)

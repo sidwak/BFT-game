@@ -28,6 +28,10 @@ public class ConveyorEndScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)   //ERROR SOME BOXES COMING AFTER PLAYER PICKED IT UP AND DOUBLE BOXES AT ONE PLACE
     {
+        if (other.gameObject.name == "MainPlayer" || other.gameObject.name == "MoverAI")
+        {
+            return;
+        }
         if (trayObject.GetComponent<TrayScript>().activeBoxesList.Count >= MaxTrayBoxes)
         {
             machineSpawner.GetComponent<MachineScript>().isStop = true;

@@ -11,6 +11,7 @@ public class TrayScript : MonoBehaviour
 
     public bool isPlayerInArea = false;
     public bool isMoverInArea = false;
+    public bool isConverterMachine = false;
     public bool is3box = false;
     public bool isAiTarget = false;
     public bool isUpgradeCapacity = false;
@@ -19,6 +20,7 @@ public class TrayScript : MonoBehaviour
     public Vector2 canvasScale;
 
     public GameObject player;
+    public GameObject cart;
     private MoverBoxScript moverBoxScript;
 
     public List<GameObject> activeBoxesList = new List<GameObject>();
@@ -27,6 +29,7 @@ public class TrayScript : MonoBehaviour
     public GameObject MainTextObject;
     public GameObject MachineBoxTextObject;
     public GameObject MachineBoxFullTextObject;
+    public PlayerBoxScript cartBoxScript;
     public TextMeshProUGUI MachineBoxText;
 
     // Start is called before the first frame update
@@ -87,7 +90,14 @@ public class TrayScript : MonoBehaviour
                 }
                 if (isPlayerInArea)
                 {
-                    StartCoroutine(PlayerStaying());
+                    if (!isConverterMachine)
+                    {
+                        StartCoroutine(PlayerStaying());
+                    }
+                    else
+                    {
+                        StartCoroutine(CartPlayerStaying());
+                    }
                     is3box = false;
                 }              
             }
@@ -102,7 +112,7 @@ public class TrayScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.gameObject.name);
-        if (other.gameObject.name == "MoverAI")
+        if (other.gameObject.name == "MoverAI" && isConverterMachine == false)
         {
             moverBoxScript = other.GetComponentInChildren<MoverBoxScript>();
             isMoverInArea = true;
@@ -116,7 +126,19 @@ public class TrayScript : MonoBehaviour
         //Debug.Log(other.gameObject.name);
         //layerEntered();
         isPlayerInArea = true;
-        StartCoroutine(PlayerStaying());
+        if (!isConverterMachine)
+        {
+            StartCoroutine(PlayerStaying());
+        }
+        else
+        {
+            if (!cart.activeInHierarchy)
+            {
+                cart.SetActive(true);
+                cartBoxScript.pauseCartDisable = true;
+            }
+            StartCoroutine(CartPlayerStaying());
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -125,7 +147,16 @@ public class TrayScript : MonoBehaviour
         {
             isMoverInArea = false;
         }
-        isPlayerInArea = false;      
+        else
+        {
+            isPlayerInArea = false;
+        }
+        if (isConverterMachine) { 
+            if (cart.activeInHierarchy)
+            {
+                cartBoxScript.pauseCartDisable = false;
+            }
+        }
     }
 
     IEnumerator PlayerStaying()
@@ -217,6 +248,56 @@ public class TrayScript : MonoBehaviour
         if (isMoverInArea)
         {
             StartCoroutine(MoverStaying());
+        }
+    }
+
+    IEnumerator CartPlayerStaying()
+    {
+        /*if (!cart.activeInHierarchy)
+        {
+            cart.SetActive(true);
+        }*/
+        yield return new WaitForSeconds(0.075f);
+        if (activeBoxesList.Count == 0)
+        {
+            is3box = true;
+        }
+        if (activeBoxesList.Count == 0 || cartBoxScript.boxNumber == playerBoxesMax)
+        {
+            yield break;
+        }
+        GameObject refBox = null;
+        int pos = 0;
+        for (int i = activeBoxesList.Count - 1; i >= 0; i--)
+        {
+            if (activeBoxesList[i].activeInHierarchy)
+            {
+                refBox = activeBoxesList[i];
+                pos = i;
+                break;
+            }
+        }
+        if (refBox == null)
+        {
+            StartCoroutine(CartPlayerStaying());
+            yield break;
+        }
+        //GameObject num = Instantiate(activeBoxesList[0], activeBoxesList[activeBoxesList.Count-1].transform.position, activeBoxesList[0].transform.rotation);
+        GameObject num = Instantiate(activeBoxesList[0], refBox.transform.position, activeBoxesList[0].transform.rotation);
+        num.AddComponent<BoxScript>();
+        int numbox = cartBoxScript.boxNumber;
+        num.GetComponent<BoxScript>().targetobject = cartBoxScript.PlayerBoxesList[numbox];
+        num.GetComponent<BoxScript>().isTargetset = true;
+        cartBoxScript.boxNumber++;
+        //inactiveBoxesList.Insert(0, activeBoxesList[activeBoxesList.Count - 1]);
+        inactiveBoxesList.Insert(0, refBox);
+        inactiveBoxesList[0].SetActive(false);
+        //activeBoxesList.RemoveAt(activeBoxesList.Count - 1);
+        activeBoxesList.RemoveAt(pos);
+        activeNoBoxes--;
+        if (isPlayerInArea)
+        {
+            StartCoroutine(CartPlayerStaying());
         }
     }
 }

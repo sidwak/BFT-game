@@ -6,7 +6,11 @@ public class PlayerBoxScript : MonoBehaviour
 {
     public int boxNumber = 0;
 
+    public bool isConverted = false;
+    public bool pauseCartDisable = false;
+
     public GameObject canvas;
+    public GameObject cart;
 
     public List<GameObject> PlayerBoxesList = new List<GameObject>();
 
@@ -28,5 +32,12 @@ public class PlayerBoxScript : MonoBehaviour
     {
         canvas.GetComponent<CanvasScript>().totalBoxes = boxNumber;
 
+        if (isConverted)
+        {
+            if (boxNumber == 0 && pauseCartDisable == false)
+            {
+                cart.SetActive(false);
+            }
+        }
     }
 }

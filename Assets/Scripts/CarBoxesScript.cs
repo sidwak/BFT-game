@@ -12,7 +12,8 @@ public class CarBoxesScript : MonoBehaviour
     public float amountBox;
 
     public bool playerInArea = false;
-    private bool isMoverInArea = false;
+    public bool isConvertedCar = false;
+    public bool isMoverInArea = false;
     public bool isLeavedCalled = false;
     public bool isAiTarget = false;
 
@@ -26,6 +27,7 @@ public class CarBoxesScript : MonoBehaviour
     public GameObject CoinPrefab;
     public GameObject coinEndPostion;
 
+    public PlayerBoxScript cartBoxScript;
     private MoverBoxScript moverBoxScript;
 
     public GameObject CarTextObject;
@@ -94,16 +96,26 @@ public class CarBoxesScript : MonoBehaviour
             return;
         }
         playerInArea = true;
-        StartCoroutine(PlayerStay());
+        if (!isConvertedCar)
+        {
+            StartCoroutine(PlayerStay());
+        }
+        else
+        {
+            StartCoroutine(CartPlayerStay());
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (isMoverInArea)
+        if (isMoverInArea && other.gameObject.name == "MoverAI")
         {
             isMoverInArea = false;
         }
-        playerInArea = false;
+        else
+        {
+            playerInArea = false;
+        }
     }
 
     IEnumerator PlayerStay()
@@ -161,6 +173,35 @@ public class CarBoxesScript : MonoBehaviour
         if (isMoverInArea)
         {
             StartCoroutine(MoverStay());
+        }
+    }
+
+    IEnumerator CartPlayerStay()
+    {
+        yield return new WaitForSeconds(0.075f);
+        if (cartBoxScript.boxNumber == 0 || boxCountnum == maxBoxCount)
+        {
+            yield break;
+        }
+        int curBox = cartBoxScript.boxNumber - 1;
+        canvas.GetComponent<CanvasScript>().totalCoins += amountBox;
+        cartBoxScript.PlayerBoxesList[curBox].SetActive(false);
+        GameObject refBox = cartBoxScript.PlayerBoxesList[curBox];
+        cartBoxScript.boxNumber--;
+        GameObject numBox = Instantiate(cartBoxScript.PlayerBoxesList[0], refBox.transform.position, refBox.transform.rotation);
+        numBox.transform.localScale = new Vector3(1050f, 1050f, 600f);
+        numBox.SetActive(true);
+        //GameObject numCoin = Instantiate(CoinPrefab, numBox.transform.position, CoinPrefab.transform.rotation);
+        //numCoin.GetComponent<CoinAnimationScript>().endTarget = coinEndPostion;
+        numBox.AddComponent<BoxScript>();
+        numBox.GetComponent<BoxScript>().targetobject = carBoxesList[boxCountnum];
+        numBox.GetComponent<BoxScript>().isTargetset = true;
+        numBox.GetComponent<BoxScript>().isCarbox = true;
+        numBox.GetComponent<BoxScript>().CoinPrefab = CoinPrefab;
+        boxCountnum++;
+        if (playerInArea)
+        {
+            StartCoroutine(CartPlayerStay());
         }
     }
 
