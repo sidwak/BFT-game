@@ -55,7 +55,7 @@ public class MoverAIScript : MonoBehaviour
 
         if (isUpgradeSpeed)
         {
-            navMeshAgent.speed = 12f;
+            navMeshAgent.speed = 15f;
         }
         if (stateIdle)
         {

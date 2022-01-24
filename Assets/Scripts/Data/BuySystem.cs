@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class BuySystem : MonoBehaviour
 {
     public int levelCur;
+    public int nextLevel = 1;
 
     public GameObject Machine1;
     public GameObject Machine2;
@@ -356,8 +357,8 @@ public class BuySystem : MonoBehaviour
 
     public void NextLevel()
     {
-        Debug.Log("Next Level 2");
-        SceneManager.LoadScene(2);
+        Debug.Log(nextLevel);
+        SceneManager.LoadScene(nextLevel);
     }
 
     public void BoughtMachine2()

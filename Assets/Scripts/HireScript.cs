@@ -35,6 +35,8 @@ public class HireScript : MonoBehaviour
     public MoverAIScript[] moversScript;
     private CharacterScript characterScript;
 
+    public string Level_str;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -122,22 +124,15 @@ public class HireScript : MonoBehaviour
     }
     public void BuyMoverAi_1()
     {
-        if (canvas.GetComponent<CanvasScript>().totalCoins >= 100)
+        if (canvas.GetComponent<CanvasScript>().totalCoins >= 60)
         {
             MoverAi_1.SetActive(true);
             HireUI.SetActive(false);
             HireUI_MoverAi_1_BuyButton.SetActive(false);
             jSONSave.playerdata.MoverAi_1Buy = true;
             jSONSave.SavaData();
-            canvas.GetComponent<CanvasScript>().totalCoins -= 100;
-            if (!isLevel2)
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Ai1", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
-            else
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "L2_Ai1", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
+            canvas.GetComponent<CanvasScript>().totalCoins -= 60;
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Ai1", (int)canvas.GetComponent<CanvasScript>().totalCoins);
         }
     }
 
@@ -151,14 +146,7 @@ public class HireScript : MonoBehaviour
             jSONSave.playerdata.MoverAi_2Buy = true;
             jSONSave.SavaData();
             canvas.GetComponent<CanvasScript>().totalCoins -= 250;
-            if (!isLevel2)
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Ai2", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
-            else
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "L2_Ai2", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Ai2", (int)canvas.GetComponent<CanvasScript>().totalCoins);
         }
     }
 
@@ -172,14 +160,7 @@ public class HireScript : MonoBehaviour
             jSONSave.playerdata.MoverAi_3Buy = true;
             jSONSave.SavaData();
             canvas.GetComponent<CanvasScript>().totalCoins -= 450;
-            if (!isLevel2)
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Ai3", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
-            else
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "L2_Ai3", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Ai3", (int)canvas.GetComponent<CanvasScript>().totalCoins);
         }
     }
 
@@ -193,14 +174,7 @@ public class HireScript : MonoBehaviour
             jSONSave.playerdata.MoverAi_4Buy = true;
             jSONSave.SavaData();
             canvas.GetComponent<CanvasScript>().totalCoins -= 1000;
-            if (!isLevel2)
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Ai4", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
-            else
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "L2_Ai4", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Ai4", (int)canvas.GetComponent<CanvasScript>().totalCoins);
         }
     }
 
@@ -214,14 +188,7 @@ public class HireScript : MonoBehaviour
             jSONSave.playerdata.PlayerUpgradeSpeed = true;
             jSONSave.SavaData();
             canvas.GetComponent<CanvasScript>().totalCoins -= 150;
-            if (!isLevel2)
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Speed", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
-            else
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "L2_Speed", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Speed", (int)canvas.GetComponent<CanvasScript>().totalCoins);
         }
     }
 
@@ -240,14 +207,7 @@ public class HireScript : MonoBehaviour
             HireUI_PlayerUpgradeCapacity_BuyButton.SetActive(false);          
             jSONSave.SavaData();
             canvas.GetComponent<CanvasScript>().totalCoins -= 150;
-            if (!isLevel2)
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Capacity", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
-            else
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "L2_Capacity", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Capacity", (int)canvas.GetComponent<CanvasScript>().totalCoins);
         }
     }
 
@@ -264,14 +224,7 @@ public class HireScript : MonoBehaviour
             jSONSave.playerdata.MoverAiUpgradeSpeed = true;
             jSONSave.SavaData();
             canvas.GetComponent<CanvasScript>().totalCoins -= 250;
-            if (!isLevel2)
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "MoverUpgradeSpeed", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
-            else
-            {
-                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "L2_MoverUpgradeSpeed", (int)canvas.GetComponent<CanvasScript>().totalCoins);
-            }
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "MoverUpgradeSpeed", (int)canvas.GetComponent<CanvasScript>().totalCoins);
         }
     }
 

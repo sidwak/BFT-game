@@ -301,6 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationLength: 1
+  isPlayerCoin: 1
   endTarget: {fileID: 0}
 --- !u!95 &8440637376891278985
 Animator:

@@ -133,13 +133,12 @@ public class CarBoxesScript : MonoBehaviour
         playerBoxHolder.GetComponent<PlayerBoxScript>().boxNumber--;
         GameObject numBox = Instantiate(playerBoxHolder.GetComponent<PlayerBoxScript>().PlayerBoxesList[0], refBox.transform.position, refBox.transform.rotation);
         numBox.SetActive(true);
-        //GameObject numCoin = Instantiate(CoinPrefab, numBox.transform.position, CoinPrefab.transform.rotation);
-        //numCoin.GetComponent<CoinAnimationScript>().endTarget = coinEndPostion;
         numBox.AddComponent<BoxScript>();
         numBox.GetComponent<BoxScript>().targetobject = carBoxesList[boxCountnum];
         numBox.GetComponent<BoxScript>().isTargetset = true;
-        numBox.GetComponent<BoxScript>().isCarbox = true;
-        numBox.GetComponent<BoxScript>().CoinPrefab = CoinPrefab;
+        //numBox.GetComponent<BoxScript>().isCarbox = true;
+        //numBox.GetComponent<BoxScript>().CoinPrefab = CoinPrefab;
+        Instantiate(CoinPrefab, transform.position, CoinPrefab.transform.rotation, canvas.transform);
         boxCountnum++;
         if (playerInArea)
         {
@@ -162,8 +161,6 @@ public class CarBoxesScript : MonoBehaviour
         moverBoxScript.boxNumber--;
         GameObject numBox = Instantiate(moverBoxScript.PlayerBoxesList[0], refBox.transform.position, refBox.transform.rotation);
         numBox.SetActive(true);
-        //GameObject numCoin = Instantiate(CoinPrefab, numBox.transform.position, CoinPrefab.transform.rotation);
-        //numCoin.GetComponent<CoinAnimationScript>().endTarget = coinEndPostion;
         numBox.AddComponent<BoxScript>();
         numBox.GetComponent<BoxScript>().targetobject = carBoxesList[boxCountnum];
         numBox.GetComponent<BoxScript>().isTargetset = true;
@@ -191,8 +188,6 @@ public class CarBoxesScript : MonoBehaviour
         GameObject numBox = Instantiate(cartBoxScript.PlayerBoxesList[0], refBox.transform.position, refBox.transform.rotation);
         numBox.transform.localScale = new Vector3(1050f, 1050f, 600f);
         numBox.SetActive(true);
-        //GameObject numCoin = Instantiate(CoinPrefab, numBox.transform.position, CoinPrefab.transform.rotation);
-        //numCoin.GetComponent<CoinAnimationScript>().endTarget = coinEndPostion;
         numBox.AddComponent<BoxScript>();
         numBox.GetComponent<BoxScript>().targetobject = carBoxesList[boxCountnum];
         numBox.GetComponent<BoxScript>().isTargetset = true;

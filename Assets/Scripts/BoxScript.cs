@@ -15,6 +15,7 @@ public class BoxScript : MonoBehaviour
 
     public GameObject targetobject;
     public GameObject CoinPrefab;
+    public GameObject coinendposition;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +43,7 @@ public class BoxScript : MonoBehaviour
             targetobject.SetActive(true);
             if (isCarbox)
             {
-                Instantiate(CoinPrefab, transform.position, CoinPrefab.transform.rotation);
+                GameObject num = Instantiate(CoinPrefab, transform.position, CoinPrefab.transform.rotation);
             }
             Destroy(gameObject);
         }
