@@ -36,6 +36,10 @@ public class BoxScript : MonoBehaviour
                 StartCoroutine(LerpRotation(targetobject.transform.rotation, 0.25f));
                 isCalled = true;
             }
+            if (targetobject == null)  /// STILL ERROR EXISTS
+            {
+                Destroy(gameObject);
+            }
         }
         if (Vector3.Distance(transform.position, targetobject.transform.position) < 1f)
         {

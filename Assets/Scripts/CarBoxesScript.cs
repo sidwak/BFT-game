@@ -8,6 +8,7 @@ public class CarBoxesScript : MonoBehaviour
 
     public int boxCountnum = 25;
     public int maxBoxCount;
+    public int coinTakenCount = 0;
 
     public float amountBox;
 
@@ -25,8 +26,10 @@ public class CarBoxesScript : MonoBehaviour
     public GameObject character;
     public GameObject canvas;
     public GameObject CoinPrefab;
+    public GameObject CoinPrefab2;
     public GameObject coinEndPostion;
 
+    public PlayerBoxScript mainBoxScript;
     public PlayerBoxScript cartBoxScript;
     private MoverBoxScript moverBoxScript;
 
@@ -90,6 +93,10 @@ public class CarBoxesScript : MonoBehaviour
     {
         if (other.gameObject.name == "MoverAI")
         {
+            if (isConvertedCar)
+            {
+                return;
+            }
             moverBoxScript = other.GetComponentInChildren<MoverBoxScript>();
             isMoverInArea = true;
             StartCoroutine(MoverStay());
@@ -115,31 +122,46 @@ public class CarBoxesScript : MonoBehaviour
         else
         {
             playerInArea = false;
+            StartCoroutine(PlayCoinAnimation());
         }
     }
 
     IEnumerator PlayerStay()
     {
         yield return new WaitForSeconds(0.075f);
-        if (playerBoxHolder.GetComponent<PlayerBoxScript>().boxNumber == 0 || boxCountnum == maxBoxCount)
+        if (playerBoxHolder.GetComponent<PlayerBoxScript>().breadCount == 0 || boxCountnum == maxBoxCount)
         {
             yield break;
         }
-        int curBox = playerBoxHolder.GetComponent<PlayerBoxScript>().boxNumber - 1;
+        //int curBox = playerBoxHolder.GetComponent<PlayerBoxScript>().boxNumber - 1;
+        int curBox = 0;
+        for (int i = 0; i < mainBoxScript.PlayerBoxesList.Count; i++)
+        {
+            if (mainBoxScript.PlayerBoxesList[i].activeInHierarchy)
+            {
+                curBox = i;
+            }
+        }
         canvas.GetComponent<CanvasScript>().totalBoxes--;
         canvas.GetComponent<CanvasScript>().totalCoins += amountBox;
-        playerBoxHolder.GetComponent<PlayerBoxScript>().PlayerBoxesList[curBox].SetActive(false);
-        GameObject refBox = playerBoxHolder.GetComponent<PlayerBoxScript>().PlayerBoxesList[curBox];
-        playerBoxHolder.GetComponent<PlayerBoxScript>().boxNumber--;
-        GameObject numBox = Instantiate(playerBoxHolder.GetComponent<PlayerBoxScript>().PlayerBoxesList[0], refBox.transform.position, refBox.transform.rotation);
+        mainBoxScript.PlayerBoxesList[curBox].SetActive(false);
+        GameObject refBox = mainBoxScript.PlayerBoxesList[curBox];
+        mainBoxScript.boxNumber--;
+        mainBoxScript.breadCount--;
+        GameObject numBox = Instantiate(mainBoxScript.PlayerBoxesList[0], refBox.transform.position, refBox.transform.rotation);
         numBox.SetActive(true);
         numBox.AddComponent<BoxScript>();
         numBox.GetComponent<BoxScript>().targetobject = carBoxesList[boxCountnum];
         numBox.GetComponent<BoxScript>().isTargetset = true;
-        //numBox.GetComponent<BoxScript>().isCarbox = true;
-        //numBox.GetComponent<BoxScript>().CoinPrefab = CoinPrefab;
-        Instantiate(CoinPrefab, transform.position, CoinPrefab.transform.rotation, canvas.transform);
+        ////numBox.GetComponent<BoxScript>().isCarbox = true;
+        ////numBox.GetComponent<BoxScript>().CoinPrefab = CoinPrefab;
+        //Instantiate(CoinPrefab, carBoxesList[boxCountnum].transform.position, CoinPrefab.transform.rotation, canvas.transform);
         boxCountnum++;
+        coinTakenCount++;
+        if (coinTakenCount >= 10)
+        {
+            StartCoroutine(PlayCoinAnimation());
+        }
         if (playerInArea)
         {
             StartCoroutine(PlayerStay());
@@ -154,7 +176,6 @@ public class CarBoxesScript : MonoBehaviour
             yield break;
         }
         int curBox = moverBoxScript.boxNumber - 1;
-        canvas.GetComponent<CanvasScript>().totalBoxes--;
         canvas.GetComponent<CanvasScript>().totalCoins += amountBox;
         moverBoxScript.PlayerBoxesList[curBox].SetActive(false);
         GameObject refBox = moverBoxScript.PlayerBoxesList[curBox];
@@ -164,8 +185,8 @@ public class CarBoxesScript : MonoBehaviour
         numBox.AddComponent<BoxScript>();
         numBox.GetComponent<BoxScript>().targetobject = carBoxesList[boxCountnum];
         numBox.GetComponent<BoxScript>().isTargetset = true;
-        numBox.GetComponent<BoxScript>().isCarbox = true;
-        numBox.GetComponent<BoxScript>().CoinPrefab = CoinPrefab;
+        //numBox.GetComponent<BoxScript>().isCarbox = true;
+        //numBox.GetComponent<BoxScript>().CoinPrefab = CoinPrefab;
         boxCountnum++;
         if (isMoverInArea)
         {
@@ -208,5 +229,23 @@ public class CarBoxesScript : MonoBehaviour
         }
         boxCountnum = 0;
         CarTextObject.SetActive(true);
+    }
+
+    IEnumerator PlayCoinAnimation()
+    {
+        if (coinTakenCount == 0)
+        {
+            yield break;
+        }
+        CoinPrefab2.GetComponentInChildren<TextMeshPro>().text = "+" + coinTakenCount.ToString();
+        Instantiate(CoinPrefab2, new Vector3(transform.position.x-1f, transform.position.y + 3f, transform.position.z), CoinPrefab2.transform.rotation);
+        int numCoinTaken = coinTakenCount;
+        coinTakenCount = 0;
+        for (int i = 0; i < numCoinTaken; i++)
+        {
+            Instantiate(CoinPrefab, new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z), CoinPrefab.transform.rotation, canvas.transform);
+            yield return new WaitForSeconds(0.055f);
+        }
+        
     }
 }

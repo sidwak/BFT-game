@@ -16,7 +16,10 @@ public class JSONSave : MonoBehaviour
 
     void Start()
     {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
         
+
         SetPaths();
         //SavaData();
         if (File.Exists(persistentPath))            //change when deploying to android
@@ -45,7 +48,7 @@ public class JSONSave : MonoBehaviour
     {
         playerdata = new PlayerData(false, false, false, false, false, false, false, false, false, false, false, false, false,
             false, false, false, false, false, false, false, false, false, false, false, false, false,
-            false, false, false, false, false, false, false, false, false, 9286, 0);
+            false, false, false, false, false, false, false, false, false, false, false, 61, 0);
     }
 
     private void SetPaths()

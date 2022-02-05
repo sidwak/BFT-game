@@ -15,6 +15,8 @@ public class TrayScript : MonoBehaviour
     public bool is3box = false;
     public bool isAiTarget = false;
     public bool isUpgradeCapacity = false;
+    public bool isBread2Machine = false;
+    public bool isIronMachine = false;
 
     public Vector2 offset;
     public Vector2 canvasScale;
@@ -29,6 +31,9 @@ public class TrayScript : MonoBehaviour
     public GameObject MainTextObject;
     public GameObject MachineBoxTextObject;
     public GameObject MachineBoxFullTextObject;
+    public PlayerBoxScript mainBoxScript;
+    public PlayerBoxScript ironBoxScript;
+    public PlayerBoxScript bread2BoxScript;
     public PlayerBoxScript cartBoxScript;
     public TextMeshProUGUI MachineBoxText;
 
@@ -106,6 +111,7 @@ public class TrayScript : MonoBehaviour
         if (isUpgradeCapacity)
         {
             playerBoxesMax = 60;
+            mainBoxScript.maxBoxCount = 60;
         }
     }
 
@@ -114,6 +120,10 @@ public class TrayScript : MonoBehaviour
         //Debug.Log(other.gameObject.name);
         if (other.gameObject.name == "MoverAI" && isConverterMachine == false)
         {
+            if (isIronMachine)
+            {
+                return;
+            }
             moverBoxScript = other.GetComponentInChildren<MoverBoxScript>();
             isMoverInArea = true;
             StartCoroutine(MoverStaying());
@@ -161,12 +171,25 @@ public class TrayScript : MonoBehaviour
 
     IEnumerator PlayerStaying()
     {
+        PlayerBoxScript numScript;
+        if (isBread2Machine)
+        {
+            numScript = bread2BoxScript;
+        }
+        else if (isIronMachine)
+        {
+            numScript = ironBoxScript;
+        }
+        else
+        {
+            numScript = mainBoxScript;
+        }
         yield return new WaitForSeconds(0.075f);
         if (activeBoxesList.Count == 0)
         {
             is3box = true;
         }
-        if (activeBoxesList.Count == 0 || player.GetComponent<PlayerBoxScript>().boxNumber == playerBoxesMax)
+        if (activeBoxesList.Count == 0 || mainBoxScript.boxNumber == playerBoxesMax)   //numScript
         {
             yield break;
         }
@@ -189,10 +212,22 @@ public class TrayScript : MonoBehaviour
         //GameObject num = Instantiate(activeBoxesList[0], activeBoxesList[activeBoxesList.Count-1].transform.position, activeBoxesList[0].transform.rotation);
         GameObject num = Instantiate(activeBoxesList[0], refBox.transform.position, activeBoxesList[0].transform.rotation);
         num.AddComponent<BoxScript>();
-        int numbox = player.GetComponent<PlayerBoxScript>().boxNumber;
-        num.GetComponent<BoxScript>().targetobject = player.GetComponent<PlayerBoxScript>().PlayerBoxesList[numbox];
+        int numbox = mainBoxScript.boxNumber;
+        num.GetComponent<BoxScript>().targetobject = numScript.PlayerBoxesList[numbox];
         num.GetComponent<BoxScript>().isTargetset = true;
-        player.GetComponent<PlayerBoxScript>().boxNumber++;
+        mainBoxScript.boxNumber++;
+        if (isIronMachine)
+        {
+            ironBoxScript.ironCount++;
+        }
+        else if (isBread2Machine)
+        {
+            bread2BoxScript.bread2Count++;
+        }
+        else
+        {
+            mainBoxScript.breadCount++;
+        }
         //inactiveBoxesList.Insert(0, activeBoxesList[activeBoxesList.Count - 1]);
         inactiveBoxesList.Insert(0, refBox);
         inactiveBoxesList[0].SetActive(false);

@@ -82,13 +82,21 @@ public class ConvertedTrayScript : MonoBehaviour
     IEnumerator CartPlayerStay()
     {
         yield return new WaitForSeconds(0.075f);
-        if (playerBoxScript.boxNumber == 0 || boxCountnum == maxBoxCount)
+        if (playerBoxScript.breadCount == 0 || boxCountnum == maxBoxCount)
         {
             yield break;
         }
         int curBox = playerBoxScript.boxNumber - 1;
+        for (int i = 0; i < playerBoxScript.PlayerBoxesList.Count; i++)
+        {
+            if (playerBoxScript.PlayerBoxesList[i].activeInHierarchy)
+            {
+                curBox = i;
+            }
+        }
         playerBoxScript.PlayerBoxesList[curBox].SetActive(false);
         GameObject refBox = playerBoxScript.PlayerBoxesList[curBox];
+        playerBoxScript.breadCount--;
         playerBoxScript.boxNumber--;
         GameObject numBox = Instantiate(playerBoxScript.PlayerBoxesList[0], refBox.transform.position, refBox.transform.rotation);
         numBox.SetActive(true);

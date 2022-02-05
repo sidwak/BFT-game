@@ -93,7 +93,7 @@ public class RackBoxHolderScript : MonoBehaviour
     IEnumerator PlayerStay()
     {
         yield return new WaitForSeconds(0.075f);
-        if (playerBoxScript.boxNumber == 0 || boxCountnum == maxBoxCount)
+        if (playerBoxScript.breadCount == 0 || boxCountnum == maxBoxCount)
         {
             yield break;
         }
@@ -102,6 +102,7 @@ public class RackBoxHolderScript : MonoBehaviour
         playerBoxScript.PlayerBoxesList[curBox].SetActive(false);
         GameObject refBox = playerBoxScript.PlayerBoxesList[curBox];
         playerBoxScript.boxNumber--;
+        playerBoxScript.breadCount--;
         GameObject numBox = Instantiate(playerBoxScript.PlayerBoxesList[0], refBox.transform.position, refBox.transform.rotation);
         numBox.SetActive(true);
         //GameObject numCoin = Instantiate(CoinPrefab, numBox.transform.position, CoinPrefab.transform.rotation);

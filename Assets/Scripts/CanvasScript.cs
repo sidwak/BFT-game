@@ -7,6 +7,7 @@ public class CanvasScript : MonoBehaviour
 {
     public float totalBoxes;
     public float totalCoins;
+    public float totalIrons;
 
     public bool isPlayerCapacityUpgrade = false;
 
@@ -16,11 +17,13 @@ public class CanvasScript : MonoBehaviour
 
     public TextMeshProUGUI totalBoxesText;
     public TextMeshProUGUI totalCoinsText;
+    public TextMeshProUGUI totalIronText;
 
     public JSONSave jsonSave;
 
     public GameObject headoverUI;
     public GameObject machineUpgrade_UI;
+    public GameObject ironTextObject;
     public Joystick JYstick;
 
     public MachineScript targetMachineScript;
@@ -47,7 +50,16 @@ public class CanvasScript : MonoBehaviour
         {
             maxBoxCountnum = "60";
         }
-        totalBoxesText.text = totalBoxes.ToString() + "/" + maxBoxCountnum;
+        totalBoxesText.text = totalBoxes.ToString();
+        if (totalIrons > 0)
+        {
+            ironTextObject.SetActive(true);
+            totalIronText.text = totalIrons.ToString();
+        }
+        else
+        {
+            ironTextObject.SetActive(false);
+        }
 
         if (totalCoins >= 10000)
         {
@@ -59,15 +71,15 @@ public class CanvasScript : MonoBehaviour
         }
         else if (totalCoins >= 100)
         {
-            totalCoinsText.text = totalCoins.ToString("0000");
+            totalCoinsText.text = totalCoins.ToString();
         }
         else if (totalCoins >= 10)
         {
-            totalCoinsText.text = totalCoins.ToString("0000");
+            totalCoinsText.text = totalCoins.ToString();
         }
         else
         {
-            totalCoinsText.text = totalCoins.ToString("0000");
+            totalCoinsText.text = totalCoins.ToString();
         }
         //totalCoinsText.text = totalCoins.ToString();
 

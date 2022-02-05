@@ -95,7 +95,10 @@ public class HireScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (HireUI.activeInHierarchy && characterScript.isMoving)
+        {
+            CloseUI(HireUI);
+        }
     }
 
     private void OnTriggerStay(Collider other)
