@@ -1,2 +1,1 @@
-# Bread-Factory-Tycoon-game
-Bread Factory Tycoon
+# B-F-T-game
