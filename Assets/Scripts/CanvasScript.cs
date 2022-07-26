@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class CanvasScript : MonoBehaviour
@@ -18,6 +19,12 @@ public class CanvasScript : MonoBehaviour
     public TextMeshProUGUI totalBoxesText;
     public TextMeshProUGUI totalCoinsText;
     public TextMeshProUGUI totalIronText;
+
+    public Toggle vibrationToggle;
+    public Toggle soundToggle;
+    public Slider slider;
+
+    public AudioSource audioSource;
 
     public JSONSave jsonSave;
 
@@ -41,6 +48,7 @@ public class CanvasScript : MonoBehaviour
         //canvasScale = new Vector2(1080f / numScaler.x, 1920f / numScaler.y);
         //Debug.Log(canvasScale);
         //canvasScale = new Vector2(1080f / Screen.width, 1920f / Screen.height);
+
     }
 
     // Update is called once per frame
@@ -93,7 +101,13 @@ public class CanvasScript : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         totalCoins = jsonSave.playerdata.totalCoins;
+        //                          SET TOGGLES
+        vibrationToggle.isOn = jsonSave.playerdata.vibrationToggle;
+        MobileVIbration.isVibrationActive = vibrationToggle.isOn;
+        soundToggle.isOn = jsonSave.playerdata.soundToggle;
+        audioSource.mute = !jsonSave.playerdata.soundToggle;
         StartCoroutine(EverySave());
+        slider.value = jsonSave.playerdata.sliderVal / 17f;
     }
 
     IEnumerator EverySave()
@@ -124,5 +138,37 @@ public class CanvasScript : MonoBehaviour
     public void CloseMachineUpgrade_U()
     {
         machineUpgrade_UI.SetActive(false);
+    }
+
+    public void ToggleValueChanged(GameObject toggle)
+    {
+        if (toggle.name == "VibrationToggle") 
+        {
+            MobileVIbration.isVibrationActive = toggle.GetComponentInChildren<Toggle>().isOn;
+            jsonSave.playerdata.vibrationToggle = toggle.GetComponentInChildren<Toggle>().isOn;
+            jsonSave.SavaData();
+        }
+        else if (toggle.name == "SoundToggle")
+        {
+            audioSource.mute = !toggle.GetComponentInChildren<Toggle>().isOn;
+            jsonSave.playerdata.soundToggle = toggle.GetComponentInChildren<Toggle>().isOn;
+            jsonSave.SavaData();
+        }
+    }
+
+    public void ShowUI(GameObject numUI)
+    {
+        numUI.SetActive(true);
+    }
+    public void CloseUI(GameObject numUI)
+    {
+        numUI.SetActive(false);
+    }
+
+    public void UpdateSliderValue()
+    {
+        jsonSave.playerdata.sliderVal += 1f;
+        slider.value = jsonSave.playerdata.sliderVal / 17f;
+        jsonSave.SavaData();
     }
 }

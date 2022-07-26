@@ -158,6 +158,8 @@ public class CarBoxesScript : MonoBehaviour
         //Instantiate(CoinPrefab, carBoxesList[boxCountnum].transform.position, CoinPrefab.transform.rotation, canvas.transform);
         boxCountnum++;
         coinTakenCount++;
+        long mili = 70;
+        MobileVIbration.Vibrate(mili);
         if (coinTakenCount >= 10)
         {
             StartCoroutine(PlayCoinAnimation());

@@ -36,10 +36,13 @@ public class BuySystem : MonoBehaviour
     public GameObject Car6Buy;
     public GameObject Area2;
     public GameObject Area2Buy;
+    public GameObject Area2Lock;
     public GameObject Area3;
     public GameObject Area3Buy;
+    public GameObject Area3Lock;
     public GameObject Area4;
     public GameObject Area4Buy;
+    public GameObject Area4Lock;
     //public GameObject Area5;
     //public GameObject Area5Buy;
     public GameObject Truck1;
@@ -69,8 +72,10 @@ public class BuySystem : MonoBehaviour
 
     public GameObject buyers;
     public GameObject Level2Buy;
+    public GameObject Level2Buy_Lock;
 
     public JSONSave jsonSave;
+    public CanvasScript canvasScript;
 
     // Start is called before the first frame update
     void Start()
@@ -138,10 +143,12 @@ public class BuySystem : MonoBehaviour
                             if (jsonSave.playerdata.Area2Buy)
                             {
                                 Area2Buy.SetActive(false);
+                                Destroy(Area2Lock);
                             }
                             else
                             {
                                 Area2Buy.SetActive(true);
+                                Destroy(Area2Lock);
                             }
                         }
                         else
@@ -182,10 +189,12 @@ public class BuySystem : MonoBehaviour
                     {
                         VendingMachine.SetActive(true);
                         VendingMachineBuy.SetActive(false);
+                        Destroy(Area3Lock);
                     }
                     else
                     {
                         VendingMachineBuy.SetActive(true);
+                        Destroy(Area3Lock);
                     }
                 }
                 else
@@ -200,10 +209,18 @@ public class BuySystem : MonoBehaviour
                     {
                         VendingMachine.SetActive(true);
                         VendingMachineBuy.SetActive(false);
+                        if (Area3Lock != null)
+                        {
+                            Destroy(Area3Lock);
+                        }
                     }
                     else
                     {
                         VendingMachineBuy.SetActive(true);
+                        if (Area3Lock != null)
+                        {
+                            Destroy(Area3Lock);
+                        }
                     }
                 }
                 else
@@ -250,19 +267,29 @@ public class BuySystem : MonoBehaviour
                                 Machine6.GetComponentInChildren<MachineScript>().isDoneUpgrade = true;
                                 Destroy(Machine6Upgrade);
                             }
+                            Destroy(Area4Lock);
                         }
                         else
                         {
                             Machine6Buy.SetActive(true);
+                            Destroy(Area4Lock);
                         }
                         Truck2.SetActive(jsonSave.playerdata.Truck2Buy);
                         if (jsonSave.playerdata.Truck2Buy)
                         {
                             Truck2Buy.SetActive(false);
+                            if (Area4Lock != null)
+                            {
+                                Destroy(Area4Lock);
+                            }
                         }
                         else
                         {
                             Truck2Buy.SetActive(true);
+                            if (Area4Lock != null)
+                            {
+                                Destroy(Area4Lock);
+                            }
                         }
                     }
                     else
@@ -298,12 +325,13 @@ public class BuySystem : MonoBehaviour
                     {
                         Machine7.GetComponentInChildren<MachineScript>().isDoneUpgrade = true;
                         Destroy(Machine7Upgrade);
-                    }
+                    }                  
 
                     Car6.SetActive(jsonSave.playerdata.Car6Buy);
                     if (jsonSave.playerdata.Car6Buy)
                     {
                         Car6Buy.SetActive(false);
+                        Destroy(Level2Buy_Lock);
 
                         Machine5.SetActive(jsonSave.playerdata.Machine5Buy);
                         Machine5Upgrade.SetActive(jsonSave.playerdata.Machine5Buy);
@@ -389,11 +417,12 @@ public class BuySystem : MonoBehaviour
     {
         Shop.SetActive(true);
         Area2Buy.SetActive(true);
+        Destroy(Area2Lock);
     }
 
     //Area 2
     public void BoughtArea2()
-    {
+    {       
         Rack2Buy.SetActive(true);
         buyers.SetActive(true);
     }
@@ -412,6 +441,7 @@ public class BuySystem : MonoBehaviour
         {
             VendingMachineBuy.SetActive(true);
             Camera.main.GetComponent<CameraScript>().Rack3or4Lerp();
+            canvasScript.UpdateSliderValue();
         }
     }
     public void BoughtRack4()
@@ -424,11 +454,13 @@ public class BuySystem : MonoBehaviour
         {
             VendingMachineBuy.SetActive(true);
             Camera.main.GetComponent<CameraScript>().Rack3or4Lerp();
+            canvasScript.UpdateSliderValue();
         }
     }
     public void BoughtVendingMachine()
     {
         Area3Buy.SetActive(true);
+        Destroy(Area3Lock);
     }
 
     //Area 3
@@ -454,7 +486,9 @@ public class BuySystem : MonoBehaviour
         if (!Area4Buy.activeInHierarchy && jsonSave.playerdata.Area4Buy == false)
         {
             Area4Buy.SetActive(true);
+            Destroy(Area4Lock);
             Camera.main.GetComponent<CameraScript>().Truck2orMachine6Lerp();
+            canvasScript.UpdateSliderValue();
         }
         Car3Buy.SetActive(true);
     }
@@ -467,7 +501,12 @@ public class BuySystem : MonoBehaviour
         if (!Area4Buy.activeInHierarchy && jsonSave.playerdata.Area4Buy == false)
         {
             Area4Buy.SetActive(true);
+            if (Area4Lock != null)
+            {
+                Destroy(Area4Lock);
+            }
             Camera.main.GetComponent<CameraScript>().Truck2orMachine6Lerp();
+            canvasScript.UpdateSliderValue();
         }
         Car3Buy.SetActive(true);
     }
@@ -486,6 +525,7 @@ public class BuySystem : MonoBehaviour
         Level2Buy.SetActive(true);
         Car4Buy.SetActive(true);
         Machine5Buy.SetActive(true);
+        Destroy(Level2Buy_Lock);
     }
 
 

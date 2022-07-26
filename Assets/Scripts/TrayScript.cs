@@ -234,6 +234,8 @@ public class TrayScript : MonoBehaviour
         //activeBoxesList.RemoveAt(activeBoxesList.Count - 1);
         activeBoxesList.RemoveAt(pos);
         activeNoBoxes--;
+        long mili = 70;
+        MobileVIbration.Vibrate(mili);
         if (isPlayerInArea)
         {
             StartCoroutine(PlayerStaying());

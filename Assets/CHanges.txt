@@ -1,13 +1,12 @@
-Camera size :35
+Camera size :40
 joystick alpha :200
-car2buy amount and text 120
-machine3 amount and text 120
 ground mat hex FF997C
 wall mat hex E09B93
 grass mat hex 73FF49
 
-stopped zone animations
-upgrade ui disables in buymachine
-boxcount set to 20 on first three cars
-line 155 on buymachine
+car2buy setactive false
+car2 camera lerp false
+shadow strength from 0.65 to 0.1
+boxes charge speed from 0.075 to 0.025
+
 json coins value

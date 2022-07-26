@@ -6,6 +6,7 @@ using GameAnalyticsSDK;
 
 public class BuyMachineScript : MonoBehaviour
 {
+    private int vibrationFreq = 0;
 
     public float buyAmount;
     public float buyIronAmount;
@@ -140,7 +141,16 @@ public class BuyMachineScript : MonoBehaviour
                         canvas.GetComponent<CanvasScript>().totalCoins -= buyMultiplier;
                     }
                     buyText.text = buyAmount.ToString();
-                    
+                    if (vibrationFreq >= 5)
+                    {
+                        long mili = 50;
+                        MobileVIbration.Vibrate(mili);
+                        vibrationFreq = 0;
+                    }
+                    else
+                    {
+                        vibrationFreq++;
+                    }
                 }
             }
             if (buyIronAmount > 0f && characterScript.isMoving == false && ironBoxScript.ironCount > 0)
@@ -218,24 +228,28 @@ public class BuyMachineScript : MonoBehaviour
                 jsonSave.playerdata.Machine1Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtMachine1();
                 cameraScript.Machine1Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Machine1", (int)canvasScript.totalCoins);
                 break;
             case "Machine2Buy":
                 jsonSave.playerdata.Machine2Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtMachine2();
                 cameraScript.Machine2Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Machine2", (int)canvasScript.totalCoins);
                 break;
             case "Machine3Buy":
                 jsonSave.playerdata.Machine3Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtMachine3();
                 cameraScript.Machine3Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Machine3", (int)canvasScript.totalCoins);
                 break;
             case "Machine4Buy":
                 jsonSave.playerdata.Machine4Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtMachine4();
                 cameraScript.Machine4Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Machine4", (int)canvasScript.totalCoins);
                 break;
             case "Machine5Buy":
@@ -251,18 +265,21 @@ public class BuyMachineScript : MonoBehaviour
                 jsonSave.playerdata.Machine7Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtMachine7();
                 cameraScript.Machine7Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Machine7", (int)canvasScript.totalCoins);
                 break;
             case "Car1Buy":
                 jsonSave.playerdata.Car1Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtCar1();
                 cameraScript.Car1Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Car1", (int)canvasScript.totalCoins);
                 break;
             case "Car2Buy":
                 jsonSave.playerdata.Car2Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtCar2();
                 cameraScript.Car2Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Car2", (int)canvasScript.totalCoins);
                 break;
             case "Car3Buy":
@@ -277,11 +294,13 @@ public class BuyMachineScript : MonoBehaviour
                 jsonSave.playerdata.Car6Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtCar6();
                 cameraScript.Car6Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Car6", (int)canvasScript.totalCoins);
                 break;
             case "Truck1Buy":
                 jsonSave.playerdata.Truck1Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtTruck1();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Truck1", (int)canvasScript.totalCoins);
                 break;
             case "Truck2Buy":
@@ -292,6 +311,7 @@ public class BuyMachineScript : MonoBehaviour
             case "Rack_2":
                 jsonSave.playerdata.Rack2Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtRack2();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Rack2", (int)canvasScript.totalCoins);
                 break;
             case "Rack_3":
@@ -308,18 +328,21 @@ public class BuyMachineScript : MonoBehaviour
                 jsonSave.playerdata.Area2Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtArea2();
                 Camera.main.GetComponent<CameraScript>().Zone2Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Zone2", (int)canvasScript.totalCoins);
                 break;
             case "Area3Buy":
                 jsonSave.playerdata.Area3Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtArea3();
                 Camera.main.GetComponent<CameraScript>().Zone3Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Zone3", (int)canvasScript.totalCoins);
                 break;
             case "Area4Buy":
                 jsonSave.playerdata.Area4Buy = true;
                 buySystem.GetComponent<BuySystem>().BoughtArea4();
                 Camera.main.GetComponent<CameraScript>().Zone4Lerp();
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "Zone4", (int)canvasScript.totalCoins);
                 break;
             case "Machine1Upgrade":
@@ -340,14 +363,20 @@ public class BuyMachineScript : MonoBehaviour
             case "Machine6Upgrade":
                 jsonSave.playerdata.Machine6Upgrade = true;
                 break;
+            case "Machine7Upgrade":
+                jsonSave.playerdata.Machine7Upgrade = true;
+                break;
             case "Level2Buy":
                 jsonSave.playerdata.curLevel = 2;
+                canvasScript.UpdateSliderValue();
                 GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str, (int)canvasScript.totalCoins);
                 break;
             case "VendingMachine1":
                 jsonSave.playerdata.VendingMachingBuy= true;
                 buySystem.GetComponent<BuySystem>().BoughtVendingMachine();
                 cameraScript.VendingMachineLerp();
+                canvasScript.UpdateSliderValue();
+                GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, Level_str + "VendingMachine", (int)canvasScript.totalCoins);
                 break;
         }
         jsonSave.SavaData();

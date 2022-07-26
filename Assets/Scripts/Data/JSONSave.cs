@@ -48,7 +48,7 @@ public class JSONSave : MonoBehaviour
     {
         playerdata = new PlayerData(false, false, false, false, false, false, false, false, false, false, false, false, false,
             false, false, false, false, false, false, false, false, false, false, false, false, false,
-            false, false, false, false, false, false, false, false, false, false, false, 61, 0);
+            false, false, false, false, false, false, false, false, false, false, false, 0.025f, 61, 0, true, true);
     }
 
     private void SetPaths()

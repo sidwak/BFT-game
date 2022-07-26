@@ -48,16 +48,22 @@ public class PlayerData
 
     public bool isFakeSend = false;
 
+    public float sliderVal = 0.025f;
+
+    //PLAYER SETTINGS
     public int totalCoins = 0;
     public int curLevel = 0;
+    public bool vibrationToggle = true;
+    public bool soundToggle = true;
 
-    public PlayerData(bool machine1Buy, bool machine2Buy, bool machine3Buy, bool machine4Buy, bool machine5Buy, bool machine6Buy,
-        bool machine7Buy, bool car1Buy, bool car2Buy, bool car3Buy, bool car4Buy, bool car6Buy, bool area2Buy, bool area3Buy,
-        bool area4Buy, bool truck1Buy, bool truck2Buy, bool rack2Buy, bool rack3Buy, bool rack4Buy, bool vendingMachingBuy,
-        bool shopOpen, bool machine1Upgrade, bool machine2Upgrade, bool machine3Upgrade, bool machine4Upgrade,
-        bool machine5Upgrade, bool machine6Upgrade, bool machine7Upgrade, bool moverAi_1Buy, bool moverAi_2Buy,
-        bool moverAi_3Buy, bool moverAi_4Buy, bool moverAiUpgradeSpeed, bool playerUpgradeSpeed, bool playerUpgradeCapacity,
-        bool isFakeSend, int totalCoins, int curLevel)
+    public PlayerData(bool machine1Buy, bool machine2Buy, bool machine3Buy, bool machine4Buy, bool machine5Buy,
+        bool machine6Buy, bool machine7Buy, bool car1Buy, bool car2Buy, bool car3Buy, bool car4Buy, bool car6Buy,
+        bool area2Buy, bool area3Buy, bool area4Buy, bool truck1Buy, bool truck2Buy, bool rack2Buy, bool rack3Buy,
+        bool rack4Buy, bool vendingMachingBuy, bool shopOpen, bool machine1Upgrade, bool machine2Upgrade, bool machine3Upgrade,
+        bool machine4Upgrade, bool machine5Upgrade, bool machine6Upgrade, bool machine7Upgrade, bool moverAi_1Buy,
+        bool moverAi_2Buy, bool moverAi_3Buy, bool moverAi_4Buy, bool moverAiUpgradeSpeed, bool playerUpgradeSpeed,
+        bool playerUpgradeCapacity, bool isFakeSend, float sliderVal, int totalCoins, int curLevel, bool vibrationToggle,
+        bool soundToggle)
     {
         Machine1Buy = machine1Buy;
         Machine2Buy = machine2Buy;
@@ -96,8 +102,11 @@ public class PlayerData
         PlayerUpgradeSpeed = playerUpgradeSpeed;
         PlayerUpgradeCapacity = playerUpgradeCapacity;
         this.isFakeSend = isFakeSend;
+        this.sliderVal = sliderVal;
         this.totalCoins = totalCoins;
         this.curLevel = curLevel;
+        this.vibrationToggle = vibrationToggle;
+        this.soundToggle = soundToggle;
     }
 
     public override string ToString()

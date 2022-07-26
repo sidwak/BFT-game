@@ -41,15 +41,18 @@ public class BoxScript : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        if (Vector3.Distance(transform.position, targetobject.transform.position) < 1f)
+        if (targetobject != null)
         {
-            isTargetset = false;
-            targetobject.SetActive(true);
-            if (isCarbox)
+            if (Vector3.Distance(transform.position, targetobject.transform.position) < 1f)
             {
-                GameObject num = Instantiate(CoinPrefab, transform.position, CoinPrefab.transform.rotation);
+                isTargetset = false;
+                targetobject.SetActive(true);
+                if (isCarbox)
+                {
+                    GameObject num = Instantiate(CoinPrefab, transform.position, CoinPrefab.transform.rotation);
+                }
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
         }
     }
 
@@ -59,12 +62,18 @@ public class BoxScript : MonoBehaviour
         Vector3 startPosition = transform.position;
         while (time < duration)
         {
-            targetPosition = targetobject.transform.position;
+            if (targetobject != null)
+            {
+                targetPosition = targetobject.transform.position;
+            }
             transform.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
             time += Time.deltaTime;
             yield return null;
         }
-        transform.position = targetobject.transform.position;
+        if (targetobject != null)
+        {
+            transform.position = targetobject.transform.position;
+        }
         isFinished();
     }
     IEnumerator LerpRotation(Quaternion targetPosition, float duration)
@@ -73,17 +82,26 @@ public class BoxScript : MonoBehaviour
         Quaternion startPosition = transform.rotation;
         while (time < duration)
         {
-            targetPosition = targetobject.transform.rotation;
+            if (targetobject != null)
+            {
+                targetPosition = targetobject.transform.rotation;
+            }
             transform.rotation = Quaternion.Lerp(startPosition, targetPosition, time / duration);
             time += Time.deltaTime;
             yield return null;
         }
-        transform.rotation = targetobject.transform.rotation;
+        if (targetobject != null)
+        {
+            transform.rotation = targetobject.transform.rotation;
+        }
     }
 
     public void isFinished()
     {
-        targetobject.SetActive(true);
+        if (targetobject != null)
+        {
+            targetobject.SetActive(true);
+        }
         Destroy(gameObject);
     }
 }
