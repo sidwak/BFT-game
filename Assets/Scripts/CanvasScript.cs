@@ -35,13 +35,13 @@ public class CanvasScript : MonoBehaviour
 
     public MachineScript targetMachineScript;
 
-    string maxBoxCountnum = "30";
+    public string maxBoxCountnum = "30";
 
 
     // Start is called before the first frame update
     void Start()
     {
-        TinySauce.OnGameStarted();
+                                                                                                            //TinySauce.OnGameStarted();
         StartCoroutine(WaitForDelay());
         //headoverUI.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, Screen.height);
         Vector2 numScaler = gameObject.GetComponent<RectTransform>().sizeDelta;
@@ -107,7 +107,7 @@ public class CanvasScript : MonoBehaviour
         soundToggle.isOn = jsonSave.playerdata.soundToggle;
         audioSource.mute = !jsonSave.playerdata.soundToggle;
         StartCoroutine(EverySave());
-        slider.value = jsonSave.playerdata.sliderVal / 17f;
+        //slider.value = jsonSave.playerdata.sliderVal / 17f;
     }
 
     IEnumerator EverySave()
@@ -120,7 +120,7 @@ public class CanvasScript : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        TinySauce.OnGameFinished(totalCoins);
+                                                                                                //TinySauce.OnGameFinished(totalCoins);
         jsonSave.playerdata.totalCoins = (int)totalCoins;
         jsonSave.SavaData();
     }
@@ -168,7 +168,7 @@ public class CanvasScript : MonoBehaviour
     public void UpdateSliderValue()
     {
         jsonSave.playerdata.sliderVal += 1f;
-        slider.value = jsonSave.playerdata.sliderVal / 17f;
+        //slider.value = jsonSave.playerdata.sliderVal / 17f;
         jsonSave.SavaData();
     }
 }

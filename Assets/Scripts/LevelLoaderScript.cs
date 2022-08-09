@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
+using GameAnalyticsSDK;
 
 public class LevelLoaderScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
+        GameAnalytics.Initialize();
         if (File.Exists(Application.persistentDataPath + Path.AltDirectorySeparatorChar + "L4_SaveData.json"))
         {
             SceneManager.LoadScene(4);
